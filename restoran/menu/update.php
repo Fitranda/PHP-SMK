@@ -1,8 +1,22 @@
 <?php 
 
+    if (isset($_GET['id'])) {
+        $id=$_GET['id'];
+
+        $sql = "SELECT * FROM tblmenu WHERE idmenu=$id";
+
+        $item = $db->getITEM($sql);
+
+        $idkategori = $item['idkategori'];
+        
+
+
+    }
+
     $row=$db->getALL("SELECT * FROM tblkategori ORDER BY kategori ASC");    
 
 ?>
+
 
 
 <h3> Insert Menu</h3>
@@ -13,19 +27,19 @@
             <label for="">Kategori</label><br>
             <select name="idkategori" id="">
                 <?php foreach ($row as $r) : ?>
-                <option value="<?php echo $r['idkategori']?>"><?php echo $r['kategori'];?></option>
+                <option <?php if($idkategori == $r['idkategori'] ) echo "selected";?> value="<?php echo $r['idkategori']?>"><?php echo $r['kategori'];?></option>
                 <?php endforeach?>
             </select>
         </div>
 
         <div class="form-group w-50">
             <label for="">Nama menu</label>
-            <input type="text" name="menu" required placeholder="isi menu" class="form-control"> 
+            <input type="text" name="menu" required value="<?php echo $item['menu']?>" class="form-control"> 
         </div>
 
         <div class="form-group w-50">
             <label for="">Harga</label>
-            <input type="number" name="harga" number required placeholder="isi harga" class="form-control"> 
+            <input type="number" name="harga" number required value="<?php echo $item['harga']?>" class="form-control"> 
         </div>
 
         <div class="form-group w-50">
@@ -47,17 +61,20 @@
         $idkategori = $_POST['idkategori'];
         $menu = $_POST['menu'];
         $harga = $_POST['harga'];
-        $gambar = $_FILES['gambar']['name'];
+        $gambar = $item['gambar'];
+        //
         $temp = $_FILES['gambar']['tmp_name'];
 
-        if (empty($gambar)) {
-            echo "<h3>Gambar Kosong</h3>";
-        }else{
-            $sql = "INSERT INTO tblmenu VALUES ('',$idkategori,'$menu','$gambar',$harga)";
+        if (!empty($temp)) {
+            $gambar = $_FILES['gambar']['name'];
             move_uploaded_file($temp,'../upload/'.$gambar);
-            $db->runSQL($sql);
-            header("location:?f=menu&m=select#");
         }
+
+        $sql = "UPDATE tblmenu SET idkategori=$idkategori, menu='$menu',gambar='$gambar',harga=$harga WHERE idmenu=$id";
+
+        $db->runSQL($sql);
+        header("location:?f=menu&m=select#");
+
         
 
     }

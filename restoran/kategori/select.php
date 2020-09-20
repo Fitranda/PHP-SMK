@@ -22,7 +22,7 @@
 
 
 <h3>Kategori</h3>
-<table class="table table-bordered w-50">
+<table class="table table-bordered w-50 mt-4">
     <thead>
         <tr>
             <th>No</th>
@@ -32,14 +32,16 @@
         </tr>
     </thead>
     <tbody>
-        <?php foreach ($row as $r):?>
-            <tr>
-                <td><?php echo $no++?></td>
-                <td><?php echo $r['kategori']?></td>
-                <td><a href="?f=kategori&m=delete&id=<?php echo $r['idkategori']?>">Delete</a></td>
-                <td><a href="?f=kategori&m=update&id=<?php echo $r['idkategori']?>">Update</a></td>
-            </tr>
-        <?php endforeach ?>
+        <?php if(!empty($row)){?>
+            <?php foreach ($row as $r):?>
+                <tr>
+                    <td><?php echo $no++?></td>
+                    <td><?php echo $r['kategori']?></td>
+                    <td><a href="?f=kategori&m=delete&id=<?php echo $r['idkategori']?>">Delete</a></td>
+                    <td><a href="?f=kategori&m=update&id=<?php echo $r['idkategori']?>">Update</a></td>
+                </tr>
+            <?php endforeach ?>
+        <?php }?>
     </tbody>
 </table>
 
