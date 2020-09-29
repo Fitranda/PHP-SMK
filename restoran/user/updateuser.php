@@ -26,12 +26,12 @@
 
         <div class="form-group w-50">
             <label for="">Password</label>
-            <input type="password" name="konfirmasi" required value="<?php echo $row['password'];?>" class="form-control"> 
+            <input type="password" name="password" required value="" class="form-control"> 
         </div>
 
         <div class="form-group w-50">
             <label for="">Konfirmasi Password</label>
-            <input type="password" name="password" required value="<?php echo $row['password'];?>" class="form-control"> 
+            <input type="password" name="konfirmasi" required value="" class="form-control"> 
         </div>
 
         <div class="form-group w-50">
@@ -56,8 +56,8 @@
     if (isset($_POST['simpan'])) {
         $user = $_POST['user'];
         $email = $_POST['email'];
-        $password = $_POST['password'];
-        $konfirmasi = $_POST['konfirmasi'];
+        $password = hash('sha256', $_POST['password'] );
+        $konfirmasi = hash('sha256', $_POST['konfirmasi'] );
         $level = $_POST['level'];
 
         if ($password===$konfirmasi) {
